@@ -15,6 +15,7 @@
             "YusamHub\\Helper\\": "src/"
         },
         "files": [
+            "src/functions.php"
         ]
     },
     "autoload-dev": {
