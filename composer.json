@@ -1,0 +1,27 @@
+{
+    "name": "yusam-hub/helpers",
+    "description": "yusam-hub/helpers",
+    "type": "package",
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.4|^8.0|^8.1|^8.2",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "YusamHub\\Helper\\": "src/"
+        },
+        "files": [
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "YusamHub\\Helper\\Tests\\": "tests/"
+        },
+        "files": [
+        ]
+    }
+}
