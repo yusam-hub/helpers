@@ -87,7 +87,7 @@ class OpenSsl
      * @param int $private_key_type
      * @return void
      */
-    public static function generateNewPrivatePublicKeys(
+    public static function generateNewPrivatePublicKeysToFiles(
         string $privateKeyFile,
         string $publicKeyFile,
         int $private_key_bits = 1024,
@@ -102,6 +102,30 @@ class OpenSsl
         $details = openssl_pkey_get_details($res);
         file_put_contents($publicKeyFile, $details['key']);
         openssl_free_key($res);
+    }
+
+    /**
+     * @param int $private_key_bits
+     * @param int $private_key_type
+     * @return self
+     */
+    public function newPrivatePublicKeys(
+        int $private_key_bits = 1024,
+        int $private_key_type = OPENSSL_KEYTYPE_RSA
+    ): self
+    {
+        $res = openssl_pkey_new(array(
+            'private_key_bits' => $private_key_bits,
+            'private_key_type' => $private_key_type,
+        ));
+        openssl_pkey_export($res, $privateKey);
+        $details = openssl_pkey_get_details($res);
+        openssl_free_key($res);
+
+        $this->privateKey = $privateKey;
+        $this->publicKey = $details['key'];
+
+        return $this;
     }
 
     /**
@@ -207,5 +231,21 @@ class OpenSsl
         }
 
         return $result;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPrivateKey(): ?string
+    {
+        return $this->privateKey;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPublicKey(): ?string
+    {
+        return $this->publicKey;
     }
 }
