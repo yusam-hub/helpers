@@ -101,7 +101,9 @@ class OpenSsl
         openssl_pkey_export_to_file($res, $privateKeyFile);
         $details = openssl_pkey_get_details($res);
         file_put_contents($publicKeyFile, $details['key']);
-        openssl_free_key($res);
+        if (PHP_MAJOR_VERSION < 8) {
+            openssl_free_key($res);
+        }
     }
 
     /**
@@ -120,7 +122,9 @@ class OpenSsl
         ));
         openssl_pkey_export($res, $privateKey);
         $details = openssl_pkey_get_details($res);
-        openssl_free_key($res);
+        if (PHP_MAJOR_VERSION < 8) {
+            openssl_free_key($res);
+        }
 
         $this->privateKey = $privateKey;
         $this->publicKey = $details['key'];
@@ -148,7 +152,9 @@ class OpenSsl
             throw new \Exception('Open ssl error : ' . implode("\n",$errors));
         }
         $resEncrypt = openssl_private_encrypt($value, $result, $res);
-        openssl_free_key($res);
+        if (PHP_MAJOR_VERSION < 8) {
+            openssl_free_key($res);
+        }
         if (!$resEncrypt) {
             throw new \Exception('Open ssl error : ' . openssl_error_string());
         }
@@ -176,7 +182,9 @@ class OpenSsl
             throw new \Exception( 'Open ssl error : ' . implode("\n",$errors));
         }
         $resEncrypt = openssl_public_encrypt($value, $result, $res);
-        openssl_free_key($res);
+        if (PHP_MAJOR_VERSION < 8) {
+            openssl_free_key($res);
+        }
         if (!$resEncrypt) {
             throw new \Exception( 'Open ssl error : ' . openssl_error_string());
         }
@@ -200,7 +208,9 @@ class OpenSsl
             throw new \Exception('Open ssl error : ' . openssl_error_string());
         }
         $resDecrypt = openssl_public_decrypt($value, $result, $res);
-        openssl_free_key($res);
+        if (PHP_MAJOR_VERSION < 8) {
+            openssl_free_key($res);
+        }
         if (!$resDecrypt) {
             throw new \Exception('Open ssl error : ' . openssl_error_string());
         }
@@ -224,7 +234,9 @@ class OpenSsl
             throw new \Exception('Open ssl error : ' . openssl_error_string());
         }
         $resDecrypt = openssl_private_decrypt($value, $result, $res);
-        openssl_free_key($res);
+        if (PHP_MAJOR_VERSION < 8) {
+            openssl_free_key($res);
+        }
 
         if (!$resDecrypt) {
             throw new \Exception('Open ssl error : ' . openssl_error_string());
